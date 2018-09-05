@@ -3,6 +3,18 @@
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
+  "bin": {
+    "swarmgw": "./swarmgw"
+  },
+  "dependencies": {
+    "klaw": "^3.0.0",
+    "request": "^2.87.0",
+    "swarmhash": "^0.1.0",
+    "through2": "^2.0.3",
+    "xhr": "^2.5.0",
+    "yargs": "^12.0.0"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,10 +22,17 @@
     "type": "git",
     "url": "git+https://github.com/embark-framework/swarmjs.git"
   },
+  "keywords": [
+    "ethereum",
+    "swarm"
+  ],
   "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/embark-framework/swarmjs/issues"
   },
-  "homepage": "https://github.com/embark-framework/swarmjs#readme"
+  "homepage": "https://github.com/embark-framework/swarmjs#readme",
+  "browser": {
+    "request": "xhr"
+  }
 }

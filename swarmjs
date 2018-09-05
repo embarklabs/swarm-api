@@ -1,0 +1,66 @@
+#!/usr/bin/env node
+
+const SwarmJS = require('./index.js');
+const swarmhash = require('swarmhash');
+const fs = require('fs');
+
+const yargs = require('yargs')
+  .usage('Usage: $0 [command]')
+  .command('get <gateway> <hash>', 'Download content', {
+    gateway: {
+      alias: 'g',
+      default: 'http://swarm-gateways.net'
+    },
+    hash: {
+      alias: 'h'
+    }
+  })
+  .command('put <gateway> <filename>', 'Upload file', {
+    gateway: {
+      alias: 'g',
+      default: 'http://swarm-gateways.net'
+    },
+    filename: {
+      alias: 'f'
+    }
+  })
+  .command('calculate <filename>', 'Calculate the hash only without uploading')
+  .strict()
+  .version()
+  .showHelpOnFail(false, 'Specify --help for available options')
+  .help()
+  .demand(1, 'Must provide a command')
+
+const argv = yargs.argv;
+const gateway = argv.gateway;
+const command = argv._[0];
+const swarmjs = new SwarmJS({ gateway });
+
+function abort(msg) {
+  console.log(msg || 'Error occured');
+  process.exit(1);
+}
+
+switch (command) {
+  case 'get':
+    swarmjs.get(argv.hash, function (err, ret) {
+      if (err) {
+        abort('Failed to download: ' + err)
+      } else {
+        console.log(ret)
+      }
+    })
+    break
+  case 'put':
+    swarmjs.putFile(fs.readFileSync(argv.filename), function (err, ret) {
+      if (err) {
+        console.log('Failed to upload: ' + err)
+      } else {
+        console.log('Swarm hash: ' + ret)
+      }
+    })
+    break
+  case 'calculate':
+    console.log('Swarm hash: ' + swarmhash(fs.readFileSync(argv.filename)).toString('hex'))
+    break
+}
