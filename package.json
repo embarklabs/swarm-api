@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "bin": {
-    "swarmgw": "./swarmgw"
+    "swarmjs": "./swarmjs"
   },
   "dependencies": {
     "klaw": "^3.0.0",
