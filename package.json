@@ -2,9 +2,9 @@
   "name": "swarmjs",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "bin": {
-    "swarmjs": "./swarmjs"
+    "swarmjs": "./bin/swarmjs"
   },
   "dependencies": {
     "klaw": "^3.0.0",
