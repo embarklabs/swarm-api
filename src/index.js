@@ -9,27 +9,26 @@ class SwarmJS {
   constructor(opts) {
     this.opts = opts || {};
     if (this.opts.gateway) {
-      this.gateway = opts.gateway
+      this.gateway = opts.gateway;
     } else if (this.opts.mode === 'http') {
-      this.gateway = 'http://swarm-gateways.net'
+      this.gateway = 'http://swarm-gateways.net';
     } else {
-      this.gateway = 'https://swarm-gateways.net'
+      this.gateway = 'https://swarm-gateways.net';
     }
   }
 
   static _isValidHash(hash) {
-    return /^[0-9a-f]{64}$/.test(hash)
+    return (/^[0-9a-f]{64}$/).test(hash);
   }
-
 
   _getDirectoryTreeReadable(directory, cb) {
     let readables = {}; // files, directories, symlinks, etc
     let errors = [];
 
     const excludeDirFilter = through2.obj(function (item, enc, next) {
-      if (!item.stats.isDirectory()) this.push(item)
-      next()
-    })
+      if (!item.stats.isDirectory()) this.push(item);
+      next();
+    });
 
     klaw(directory)
       .pipe(excludeDirFilter)
@@ -50,24 +49,24 @@ class SwarmJS {
 
   _hashResponse(error, response, body, cb) {
     if (error) {
-      cb(error)
+      cb(error);
     } else if (response.statusCode !== 200) {
-      cb(body)
+      cb(body);
     } else if (!SwarmJS._isValidHash(body)) {
-      cb('Invalid hash')
+      cb('Invalid hash');
     } else {
-      cb(null, body)
+      cb(null, body);
     }
   }
 
   download(url, cb) {
     request(`${this.gateway}/${url}`, (error, response, body) => {
       if (error) {
-        cb(error)
+        cb(error);
       } else if (response.statusCode !== 200) {
-        cb(body)
+        cb(body);
       } else {
-        cb(null, body)
+        cb(null, body);
       }
     });
   }
@@ -80,7 +79,7 @@ class SwarmJS {
     request.post({
       url: `${this.gateway}/${url}`,
       body: content
-    }, (error, response, body) => this._hashResponse(error, response, body, cb))
+    }, (error, response, body) => this._hashResponse(error, response, body, cb));
   }
 
   uploadRaw(content, cb) {
