@@ -1,0 +1,40 @@
+{
+  "comments": false,
+  "compact": false,
+  "env": {
+    "browser": {
+      "ignore": [
+        "src/swarmjs.js",
+        "src/node/index.js",
+        "src/standalone/index.js",
+        "bin/swarmjs"
+      ],
+      "plugins": [
+        ["@babel/plugin-transform-runtime", {
+          "corejs": 2
+        }]
+      ],
+      "presets": [
+        ["@babel/env", {
+          "targets": {"node": "8.11.3"}
+        }]
+      ]
+    },
+    "node": {
+      "ignore": [
+        "src/browser.js",
+        "bin/swarmjs"
+      ],
+      "plugins": [
+        ["@babel/plugin-transform-runtime", {
+          "corejs": 2
+        }]
+      ],
+      "presets": [
+        ["@babel/env", {
+          "targets": {"node": "8.11.3"}
+        }]
+      ]
+    }
+  }
+}

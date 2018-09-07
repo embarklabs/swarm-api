@@ -1,12 +1,50 @@
 {
   "name": "swarmjs",
   "version": "0.0.1",
-  "description": "",
-  "main": "src/index.js",
+  "description": "JavaScript library for easily interacting with Swarm distributed storage.",
+  "main": "dist/node/index.js",
+  "browser": {
+    "request": "xhr",
+    "./dist/node/index.js": "./dist/browser/browser.js"
+  },
   "bin": {
     "swarmjs": "./bin/swarmjs"
   },
+  "browserslist": [
+    "last 1 version",
+    "not dead",
+    "> 0.2%"
+  ],
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint src/",
+    "babel:browser": "cross-env BABEL_ENV=browser babel --out-dir dist/browser src",
+    "babel:node": "cross-env BABEL_ENV=node babel --out-dir dist src",
+    "build": "npm run clean && npm run babel && npm run webpack",
+    "clean": "rimraf dist swarmjs-*.tgz package",
+    "http-server": "http-server",
+    "prepare": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/embark-framework/swarmjs.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "keywords": [
+    "ethereum",
+    "dapps",
+    "swarm",
+    "blockchain",
+    "serverless"
+  ],
+  "bugs": {
+    "url": "https://github.com/embark-framework/swarmjs/issues"
+  },
+  "homepage": "https://github.com/embark-framework/swarmjs#readme",
   "dependencies": {
+    "@babel/runtime-corejs2": "7.0.0-rc.1",
     "klaw": "^3.0.0",
     "request": "^2.87.0",
     "swarmhash": "^0.1.0",
@@ -15,27 +53,19 @@
     "yargs": "^12.0.0"
   },
   "devDependencies": {
+    "@babel/cli": "7.0.0-rc.1",
+    "@babel/core": "7.0.0-rc.1",
+    "@babel/plugin-transform-runtime": "7.0.0-rc.1",
+    "@babel/preset-env": "7.0.0-rc.1",
+    "ajv": "6.5.2",
+    "cross-env": "5.2.0",
+    "http-server": "0.11.1",
+    "rimraf": "2.6.2",
+    "webpack": "4.16.1",
+    "webpack-cli": "3.0.8",
     "eslint": "^4.13.1"
   },
-  "scripts": {
-    "lint": "./node_modules/.bin/eslint src/",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/embark-framework/swarmjs.git"
-  },
-  "keywords": [
-    "ethereum",
-    "swarm"
-  ],
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/embark-framework/swarmjs/issues"
-  },
-  "homepage": "https://github.com/embark-framework/swarmjs#readme",
-  "browser": {
-    "request": "xhr"
+  "engines": {
+    "node": ">=8.11.3"
   }
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const SwarmJS = require('./index.js');
+const SwarmJS = require('../src/index.js');
 const swarmhash = require('swarmhash');
 const fs = require('fs');
 
@@ -43,7 +43,7 @@ function abort(msg) {
 
 switch (command) {
   case 'get':
-    swarmjs.get(argv.hash, function (err, ret) {
+    swarmjs.downloadRaw(argv.hash, function (err, ret) {
       if (err) {
         abort('Failed to download: ' + err)
       } else {
@@ -52,7 +52,7 @@ switch (command) {
     })
     break
   case 'put':
-    swarmjs.putFile(fs.readFileSync(argv.filename), function (err, ret) {
+    swarmjs.uploadRaw(fs.readFileSync(argv.filename), function (err, ret) {
       if (err) {
         console.log('Failed to upload: ' + err)
       } else {
