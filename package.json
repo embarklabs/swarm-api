@@ -22,6 +22,7 @@
   ],
   "scripts": {
     "lint": "./node_modules/.bin/eslint src/",
+    "babel": "npm run babel:browser && npm run babel:node",
     "babel:browser": "cross-env BABEL_ENV=browser babel --out-dir dist/browser src",
     "babel:node": "cross-env BABEL_ENV=node babel --out-dir dist src",
     "build": "npm run clean && npm run babel && npm run webpack",
