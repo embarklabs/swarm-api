@@ -5,24 +5,28 @@
     "browser": {
       "ignore": [
         "src/swarmjs.js",
+        "src/index.js",
         "src/node/index.js",
         "src/standalone/index.js",
         "bin/swarmjs"
       ],
       "plugins": [
         ["@babel/plugin-transform-runtime", {
-          "corejs": 2
+          "corejs": 2,
+          "useESModules": true
         }]
       ],
       "presets": [
         ["@babel/env", {
-          "targets": {"node": "8.11.3"}
+          "modules": false,
+          "targets": {"browsers": ["last 1 version", "not dead", "> 0.2%"]}
         }]
       ]
     },
     "node": {
       "ignore": [
         "src/browser.js",
+        "src/standalone/index.js",
         "bin/swarmjs"
       ],
       "plugins": [

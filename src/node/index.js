@@ -1,1 +1,1 @@
-module.exports = require('../swarmjs').default;
+module.exports = require('../index').default;

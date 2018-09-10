@@ -15,6 +15,11 @@
     "not dead",
     "> 0.2%"
   ],
+  "files": [
+    "dist",
+    "swarmjs.min.js",
+    "src"
+  ],
   "scripts": {
     "lint": "./node_modules/.bin/eslint src/",
     "babel:browser": "cross-env BABEL_ENV=browser babel --out-dir dist/browser src",
