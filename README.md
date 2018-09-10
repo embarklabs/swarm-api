@@ -1,13 +1,15 @@
 # SwarmJS
 A javascript library for interacting with [Swarm](https://swarm-guide.readthedocs.io/en/latest/), a decentralised and distributed storage platform.
 
+Under the hood, SwarmJS uses the Swarm HTTP API to communicate with the Swarm gateway.
 ## Installation
 ```
 npm install swarmjs --save
 ```
 
 ## Basic usage
-#### First, import SwarmJS
+First, import SwarmJS.
+
 Using **CommonJS**:
 ```
 const SwarmJS = require('swarmjs');
@@ -16,17 +18,19 @@ Or, with **ES6**:
 ```
 import SwarmJS from 'swarmjs';
 ```
-Then instantiate SwarmJS
+Then instantiate SwarmJS, specifying the gateway you'd like to connect to. *If you are [running your own node](https://swarm-guide.readthedocs.io/en/latest/gettingstarted.html) (recommended), the node should be started before proceeding.*
 ```
 // instantiate SwarmJS
 const swarmjs = new SwarmJS({ gateway: 'http://localhost:8500' });
 ```
 Available options:
+
 | Option | Description | Default |
 | -----| ------------| ------- |
 | `gateway` | URL of the Swarm gateway, ie `http://localhost:8500`. | `swarm-gateways.net` |
 | `mode` | Protocol of the default gateway URL. If `gateway` is provided, this has no effect. | `https` |
-NOTE: if no options are provided, the default gateway URL will be `https://swarm-gateways.net`.
+
+NOTE: If no options are provided, the default gateway URL will be `https://swarm-gateways.net`. This means you don't necessarily need to [run your own Swarm node](https://swarm-guide.readthedocs.io/en/latest/gettingstarted.html), however there is an upload limit of ~2.5MB and no guarantees about permanence. It is recommended to run your own Swarm node.
 ##### Check gateway availability
 ```
 // Check gateway availability
