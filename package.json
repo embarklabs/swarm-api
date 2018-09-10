@@ -18,6 +18,7 @@
   "files": [
     "dist",
     "swarmjs.min.js",
+    "bin/swarmjs",
     "src"
   ],
   "scripts": {
