@@ -65,11 +65,14 @@ fs.readFile('./index.html', (err, data) => {
 // > file contents can now be accessed from 'http://localhost:8500/bzz-raw:/178739cbbd084e90ae0cef3f95e4b92baa85e83edb1a52d28dc370277db9d457'
 ```
 ##### Upload directory (only available in NodeJS, not available in the browser!)
+Once uploaded, the hash of **the manifest** is returned. Accessing the manifest from `bzz:/` will not return anything. Instead, you can use the hash as the root of your directory and access the individual files by appending them to the end of the URL. So, if we uploaded a directory containing `index.html`, we will be able to access it via `<gateway url>/bzz:/<hash>/index.html`.
 ```
-swarmjs.uploadDirectory('dist/', (err, hash) => {
+// upload the dist folder, and for this example, we can assume this folder contains index.html and dapp.css
+swarm.uploadDirectory('dist/', (err, hash) => {
     if(err) return console.error('Error uploading directory', err);
-    console.log(``);
+    console.log(`We can now access our directory via 'http://localhost:8500/bzz:/${hash}/index.html' and 'http://localhost:8500/bzz:/${hash}/dapp.css'`);
 });
+// > We can now access our directory via 'http://localhost:8500/bzz:/26089099a5f473dfb7b172de6558972989f8db4d3948daedbb974025be7c8534/index.html' and 'http://localhost:8500/bzz:/26089099a5f473dfb7b172de6558972989f8db4d3948daedbb974025be7c8534/dapp.css'
 ```
 ##### Download content
 ```
