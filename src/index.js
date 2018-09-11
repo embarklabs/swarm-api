@@ -1,13 +1,13 @@
 /* eslint no-useless-constructor: "off" */
 const resolve = require('path').resolve;
-import _SwarmJS from './shared';
+import _SwarmAPI from './shared';
 import fs from 'fs';
 import klaw from 'klaw';
 import through2 from 'through2';
 
-class SwarmJS extends _SwarmJS {
+class SwarmAPI extends _SwarmAPI {
 
-  constructor(opts){
+  constructor(opts) {
     super(opts);
   }
 
@@ -23,9 +23,9 @@ class SwarmJS extends _SwarmJS {
     klaw(directory)
       .pipe(excludeDirFilter)
       .on('data', (item) => {
-        const  itemRelPath = item.path.replace(directory, '');
+        const itemRelPath = item.path.replace(directory, '');
         readables[itemRelPath.replace('/\\', '_')] = {
-          value: fs.createReadStream(item.path), 
+          value: fs.createReadStream(item.path),
           options: {
             filepath: itemRelPath
           }
@@ -54,4 +54,4 @@ class SwarmJS extends _SwarmJS {
   }
 }
 
-export default SwarmJS;
+export default SwarmAPI;

@@ -1,6 +1,6 @@
 const request = require('request');
 
-class _SwarmJS {
+class SwarmAPI {
 
   constructor(opts) {
     this.opts = opts || {};
@@ -83,4 +83,4 @@ class _SwarmJS {
     }
   }
 }
-export default _SwarmJS;
+export default SwarmAPI;

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const SwarmJS = require('../src/index.js');
+const SwarmAPI = require('../src/index.js');
 const swarmhash = require('swarmhash');
 const fs = require('fs');
 
@@ -34,7 +34,7 @@ const yargs = require('yargs')
 const argv = yargs.argv;
 const gateway = argv.gateway;
 const command = argv._[0];
-const swarmjs = new SwarmJS({gateway});
+const swarmapi = new SwarmAPI({gateway});
 
 function abort(msg) {
   console.log(msg || 'Error occured');
@@ -43,7 +43,7 @@ function abort(msg) {
 
 switch (command) {
   case 'get':
-    swarmjs.downloadRaw(argv.hash, function (err, ret) {
+    swarmapi.downloadRaw(argv.hash, function (err, ret) {
       if (err) {
         abort('Failed to download: ' + err);
       } else {
@@ -52,7 +52,7 @@ switch (command) {
     });
     break;
   case 'put':
-    swarmjs.uploadRaw(fs.readFileSync(argv.filename), function (err, ret) {
+    swarmapi.uploadRaw(fs.readFileSync(argv.filename), function (err, ret) {
       if (err) {
         console.log('Failed to upload: ' + err);
       } else {
@@ -64,5 +64,5 @@ switch (command) {
     console.log('Swarm hash: ' + swarmhash(fs.readFileSync(argv.filename)).toString('hex'));
     break;
   default:
-    console.log('Invalid arguments. Type \'swarmjs --help\' for valid options');
+    console.log('Invalid arguments. Type \'swarmapi --help\' for valid options');
 }

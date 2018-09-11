@@ -1,5 +1,5 @@
 {
-  "name": "swarmjs",
+  "name": "swarmapi",
   "version": "0.0.1",
   "description": "JavaScript library for easily interacting with Swarm distributed storage.",
   "main": "dist/node/index.js",
@@ -8,7 +8,7 @@
     "./dist/node/index.js": "./dist/browser/browser.js"
   },
   "bin": {
-    "swarmjs": "./bin/swarmjs"
+    "swarmapi": "./bin/swarmapi"
   },
   "browserslist": [
     "last 1 version",
@@ -17,8 +17,8 @@
   ],
   "files": [
     "dist",
-    "swarmjs.min.js",
-    "bin/swarmjs",
+    "swarmapi.min.js",
+    "bin/swarmapi",
     "src"
   ],
   "scripts": {
@@ -27,7 +27,7 @@
     "babel:browser": "cross-env BABEL_ENV=browser babel --out-dir dist/browser src",
     "babel:node": "cross-env BABEL_ENV=node babel --out-dir dist src",
     "build": "npm run clean && npm run babel && npm run webpack",
-    "clean": "rimraf dist swarmjs-*.tgz package",
+    "clean": "rimraf dist swarmapi-*.tgz package",
     "http-server": "http-server",
     "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -35,7 +35,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/embark-framework/swarmjs.git"
+    "url": "git+https://github.com/embark-framework/swarmapi.git"
   },
   "author": "",
   "license": "MIT",
@@ -47,9 +47,9 @@
     "serverless"
   ],
   "bugs": {
-    "url": "https://github.com/embark-framework/swarmjs/issues"
+    "url": "https://github.com/embark-framework/swarmapi/issues"
   },
-  "homepage": "https://github.com/embark-framework/swarmjs#readme",
+  "homepage": "https://github.com/embark-framework/swarmapi#readme",
   "dependencies": {
     "@babel/runtime-corejs2": "7.0.0-rc.1",
     "klaw": "^3.0.0",

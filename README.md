@@ -1,27 +1,27 @@
-# SwarmJS
+# SwarmAPI
 A javascript library for interacting with [Swarm](https://swarm-guide.readthedocs.io/en/latest/), a decentralised and distributed storage platform.
 
-Under the hood, SwarmJS uses the Swarm HTTP API to communicate with the Swarm gateway.
+Under the hood, SwarmAPI uses the Swarm HTTP API to communicate with the Swarm gateway.
 ## Installation
 ```
-npm install swarmjs --save
+npm install swarmapi --save
 ```
 
 ## Basic usage
-First, import SwarmJS.
+First, import SwarmAPI.
 
 Using **CommonJS**:
 ```
-const SwarmJS = require('swarmjs');
+const SwarmAPI = require('swarmapi');
 ```
 Or, with **ES6**:
 ```
-import SwarmJS from 'swarmjs';
+import SwarmAPI from 'swarmapi';
 ```
-Then instantiate SwarmJS, specifying the gateway you'd like to connect to. *If you are [running your own node](https://swarm-guide.readthedocs.io/en/latest/gettingstarted.html) (recommended), the node should be started before proceeding.*
+Then instantiate SwarmAPI, specifying the gateway you'd like to connect to. *If you are [running your own node](https://swarm-guide.readthedocs.io/en/latest/gettingstarted.html) (recommended), the node should be started before proceeding.*
 ```
-// instantiate SwarmJS
-const swarmjs = new SwarmJS({ gateway: 'http://localhost:8500' });
+// instantiate SwarmAPI
+const swarmapi = new SwarmAPI({ gateway: 'http://localhost:8500' });
 ```
 Available options:
 
@@ -33,7 +33,7 @@ NOTE: If no options are provided, the default gateway URL will be `https://swarm
 ##### Check gateway availability
 ```
 // Check gateway availability
-swarmjs.isAvailable((err, isAvailable) => {
+swarmapi.isAvailable((err, isAvailable) => {
     if(err) return console.error('Error checking Swarm availability', err);
     console.log(`Gateway at 'http://localhost:8500' is ${isAvailable ? '' : 'un'}available`);
 });
@@ -43,7 +43,7 @@ swarmjs.isAvailable((err, isAvailable) => {
 ```
 // Upload of raw content
 let testHash;
-swarmjs.uploadRaw('test', (err, hash) => {
+swarmapi.uploadRaw('test', (err, hash) => {
     if(err) return console.error('Error uploading contents', err);
     testHash = hash;
     console.log(`test can now be accessed from 'http://localhost:8500/bzz-raw:/${hash}'`);
@@ -76,7 +76,7 @@ swarm.uploadDirectory('dist/', (err, hash) => {
 ##### Download content
 ```
 // Download content via hash
-swarmjs.downloadRaw(testHash, (err, content) => {
+swarmapi.downloadRaw(testHash, (err, content) => {
     if(err) return console.error(err);
     console.log(`contents of our test: ${content}`);
 });

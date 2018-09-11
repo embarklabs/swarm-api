@@ -4,11 +4,11 @@
   "env": {
     "browser": {
       "ignore": [
-        "src/swarmjs.js",
+        "src/swarmapi.js",
         "src/index.js",
         "src/node/index.js",
         "src/standalone/index.js",
-        "bin/swarmjs"
+        "bin/swarmapi"
       ],
       "plugins": [
         ["@babel/plugin-transform-runtime", {
@@ -27,7 +27,7 @@
       "ignore": [
         "src/browser.js",
         "src/standalone/index.js",
-        "bin/swarmjs"
+        "bin/swarmapi"
       ],
       "plugins": [
         ["@babel/plugin-transform-runtime", {

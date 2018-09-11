@@ -7,9 +7,9 @@ const standalone = {
   //     minimize: false
   // },
   output: {
-    filename: 'swarmjs.min.js',
+    filename: 'swarmapi.min.js',
     globalObject: 'typeof self !== \'undefined\' ? self : this',
-    library: 'SwarmJS',
+    library: 'SwarmAPI',
     libraryTarget: 'umd',
     libraryExport: 'default',
     path: __dirname,
