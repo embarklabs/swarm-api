@@ -1,3 +1,4 @@
+/* eslint no-useless-constructor: "off" */
 const resolve = require('path').resolve;
 import _SwarmJS from './shared';
 import fs from 'fs';
@@ -15,9 +16,9 @@ class SwarmJS extends _SwarmJS {
     let errors = [];
 
     const excludeDirFilter = through2.obj(function (item, enc, next) {
-      if (!item.stats.isDirectory()) this.push(item)
-      next()
-    })
+      if (!item.stats.isDirectory()) this.push(item);
+      next();
+    });
 
     klaw(directory)
       .pipe(excludeDirFilter)

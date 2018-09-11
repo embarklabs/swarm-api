@@ -27,10 +27,9 @@ Available options:
 
 | Option | Description | Default |
 | -----| ------------| ------- |
-| `gateway` | URL of the Swarm gateway, ie `http://localhost:8500`. | `swarm-gateways.net` |
-| `mode` | Protocol of the default gateway URL. If `gateway` is provided, this has no effect. | `https` |
+| `gateway` | URL of the Swarm gateway, ie `http://localhost:8500`. | `https://swarm-gateways.net` |
 
-NOTE: If no options are provided, the default gateway URL will be `https://swarm-gateways.net`. This means you don't necessarily need to [run your own Swarm node](https://swarm-guide.readthedocs.io/en/latest/gettingstarted.html), however there is an upload limit of ~2.5MB and no guarantees about permanence. It is recommended to run your own Swarm node.
+NOTE: If no options are provided, the default gateway URL will be `https://swarm-gateways.net`. This means you don't necessarily need to [run your own Swarm node](https://swarm-guide.readthedocs.io/en/latest/gettingstarted.html), however there is an upload limit of ~2.5MB and no guarantees regarding permanence. *It is recommended to run your own Swarm node.*
 ##### Check gateway availability
 ```
 // Check gateway availability

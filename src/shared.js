@@ -4,39 +4,43 @@ class _SwarmJS {
 
   constructor(opts) {
     this.opts = opts || {};
+    this.gateway = 'https://swarm-gateways.net';
     if (this.opts.gateway) {
-      this.gateway = opts.gateway
-    } else if (this.opts.mode === 'http') {
-      this.gateway = 'http://swarm-gateways.net'
-    } else {
-      this.gateway = 'https://swarm-gateways.net'
+      this.gateway = opts.gateway;
     }
   }
 
   _isValidHash(hash) {
-    return /^[0-9a-f]{64}$/.test(hash)
+    return (/^[0-9a-f]{64}$/).test(hash);
+  }
+
+  _contentResponse(error, response, body, cb) {
+    if (error) {
+      cb(error);
+    } else if (response.statusCode !== 200) {
+      cb(body);
+    } else {
+      cb(null, body);
+    }
+
   }
 
   _hashResponse(error, response, body, cb) {
-    if (error) {
-      cb(error)
-    } else if (response.statusCode !== 200) {
-      cb(body)
-    } else if (!this._isValidHash(body)) {
-      cb('Invalid hash')
-    } else {
-      cb(null, body)
-    }
+    this._contentResponse(error, response, body, (err, body) => {
+      if (err) return cb(err);
+      if (!this._isValidHash(body)) return cb('Invalid hash');
+      return cb(null, body);
+    });
   }
 
   download(url, cb) {
     request(`${this.gateway}/${url}`, (error, response, body) => {
       if (error) {
-        cb(error)
+        cb(error);
       } else if (response.statusCode !== 200) {
-        cb(body)
+        cb(body);
       } else {
-        cb(null, body)
+        cb(null, body);
       }
     });
   }
@@ -49,7 +53,7 @@ class _SwarmJS {
     request.post({
       url: `${this.gateway}/${url}`,
       body: content
-    }, (error, response, body) => this._hashResponse(error, response, body, cb))
+    }, (error, response, body) => this._hashResponse(error, response, body, cb));
   }
 
   uploadRaw(content, cb) {
@@ -60,7 +64,7 @@ class _SwarmJS {
     let postObj = {
       url: `${this.gateway}/bzz:/`,
       formData: formData,
-      qs: { defaultpath: defaultPath }
+      qs: {defaultpath: defaultPath}
     };
 
     request.post(postObj, (error, response, body) => this._hashResponse(error, response, body, cb));

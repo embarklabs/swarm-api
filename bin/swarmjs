@@ -29,12 +29,12 @@ const yargs = require('yargs')
   .version()
   .showHelpOnFail(false, 'Specify --help for available options')
   .help()
-  .demand(1, 'Must provide a command')
+  .demand(1, 'Must provide a command');
 
 const argv = yargs.argv;
 const gateway = argv.gateway;
 const command = argv._[0];
-const swarmjs = new SwarmJS({ gateway });
+const swarmjs = new SwarmJS({gateway});
 
 function abort(msg) {
   console.log(msg || 'Error occured');
@@ -45,22 +45,24 @@ switch (command) {
   case 'get':
     swarmjs.downloadRaw(argv.hash, function (err, ret) {
       if (err) {
-        abort('Failed to download: ' + err)
+        abort('Failed to download: ' + err);
       } else {
-        console.log(ret)
+        console.log(ret);
       }
-    })
-    break
+    });
+    break;
   case 'put':
     swarmjs.uploadRaw(fs.readFileSync(argv.filename), function (err, ret) {
       if (err) {
-        console.log('Failed to upload: ' + err)
+        console.log('Failed to upload: ' + err);
       } else {
-        console.log('Swarm hash: ' + ret)
+        console.log('Swarm hash: ' + ret);
       }
-    })
-    break
+    });
+    break;
   case 'calculate':
-    console.log('Swarm hash: ' + swarmhash(fs.readFileSync(argv.filename)).toString('hex'))
-    break
+    console.log('Swarm hash: ' + swarmhash(fs.readFileSync(argv.filename)).toString('hex'));
+    break;
+  default:
+    console.log('Invalid arguments. Type \'swarmjs --help\' for valid options');
 }
