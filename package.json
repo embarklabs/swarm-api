@@ -8,7 +8,7 @@
     "./dist/node/index.js": "./dist/browser/browser.js"
   },
   "bin": {
-    "swarmapi": "./dist/bin/swarmapi"
+    "swarmapi": "./bin/swarmapi"
   },
   "browserslist": [
     "last 1 version",
