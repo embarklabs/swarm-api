@@ -1,38 +1,38 @@
-# SwarmJS
+# SwarmAPI
 A javascript library for interacting with [Swarm](https://swarm-guide.readthedocs.io/en/latest/), a decentralised and distributed storage platform.
 
-Under the hood, SwarmJS uses the Swarm HTTP API to communicate with the Swarm gateway.
+Under the hood, SwarmAPI uses the Swarm HTTP API to communicate with the Swarm gateway.
 ## Installation
 ```
-npm install swarmjs --save
+npm install swarm-api --save
 ```
 
 ## JS usage
-First, import SwarmJS.
+First, import SwarmAPI.
 
 Using **CommonJS**:
 ```
-const SwarmJS = require('swarmjs');
+const SwarmAPI = require('swarm-api');
 ```
 Or, with **ES6**:
 ```
-import SwarmJS from 'swarmjs';
+import SwarmAPI from 'swarm-api';
 ```
-Then instantiate SwarmJS, specifying the gateway you'd like to connect to. *If you are [running your own node](https://swarm-guide.readthedocs.io/en/latest/gettingstarted.html) (recommended), the node should be started before proceeding.*
+Then instantiate SwarmAPI, specifying the gateway you'd like to connect to. *If you are [running your own node](https://swarm-guide.readthedocs.io/en/latest/gettingstarted.html) (recommended), the node should be started before proceeding.*
 ```
-// instantiate SwarmJS
-const swarmjs = new SwarmJS({ gateway: 'http://localhost:8500' });
+// instantiate SwarmAPI
+const swarmapi = new SwarmAPI({ gateway: 'http://localhost:8500' });
 ```
 Available options:
 
 | Option | Description | Default |
 | -----| ------------| ------- |
-| `gateway` | URL of the Swarm gateway, ie `http://localhost:8500`. | `swarm-gateways.net` |
+| `gateway` | URI of the Swarm gateway, ie `http://localhost:8500`. | `swarm-gateways.net` |
 
-NOTE: If no options are provided, the default gateway URL will be `https://swarm-gateways.net`. This means you don't necessarily need to [run your own Swarm node](https://swarm-guide.readthedocs.io/en/latest/gettingstarted.html), however there is an upload limit of ~2.5MB and no guarantees about permanence. It is recommended to run your own Swarm node.
+NOTE: If no options are provided, the default gateway URI will be `https://swarm-gateways.net`. This means you don't necessarily need to [run your own Swarm node](https://swarm-guide.readthedocs.io/en/latest/gettingstarted.html), however there is an upload limit of ~2.5MB and no guarantees about permanence. It is recommended to run your own Swarm node.
 ##### Check gateway availability
 ```
-swarmjs.isAvailable((err, isAvailable) => {
+swarmapi.isAvailable((err, isAvailable) => {
     if(err) return console.error('Error checking Swarm availability', err);
     console.log(`Gateway at 'http://localhost:8500' is ${isAvailable ? '' : 'un'}available`);
 });
@@ -41,7 +41,7 @@ swarmjs.isAvailable((err, isAvailable) => {
 ##### Upload of raw content
 ```
 let testHash;
-swarmjs.uploadRaw('test', (err, hash) => {
+swarmapi.uploadRaw('test', (err, hash) => {
     if(err) return console.error('Error uploading contents', err);
     testHash = hash;
     console.log(`test can now be accessed from 'http://localhost:8500/bzz-raw:/${hash}'`);
@@ -54,7 +54,7 @@ If you want to upload a file, first read the file's contents, then upload as the
 const fs = require('fs');
 fs.readFile('./index.html', (err, data) => {
   if (err) throw err;
-  swarm.uploadRaw(data, (err, hash) => {
+  swarmapi.uploadRaw(data, (err, hash) => {
     if (err) return console.error('Error uploading file contents', err);
     console.log(`file contents can now be accessed from 'http://localhost:8500/bzz-raw:/${hash}'`);
   });
@@ -62,7 +62,7 @@ fs.readFile('./index.html', (err, data) => {
 // file contents can now be accessed from 'http://localhost:8500/bzz-raw:/178739cbbd084e90ae0cef3f95e4b92baa85e83edb1a52d28dc370277db9d457'
 ```
 ##### Upload directory (only available in NodeJS, not available in the browser!)
-Once uploaded, the hash of **the manifest** is returned. Accessing the manifest from `bzz:/` will 404. Instead, you can use the hash as the root of your directory and access the individual files by appending them to the end of the URI, then call `swarmapi download <uri>`. 
+Once uploaded, the hash of **the manifest** is returned. Accessing the manifest from `bzz:/` will 404. Instead, you can use the hash as the root of your directory and access the individual files by appending them to the end of the URI, then call `swarmapi.download(<uri>, (err, content) => {})`. 
 So, if our uploaded directory looked like:
 ```
 ├── dist 
@@ -72,7 +72,7 @@ So, if our uploaded directory looked like:
 ``` 
 Run the upload directory command
 ```
-swarm.uploadDirectory('dist/', null, (err, hash) => {
+swarmapi.uploadDirectory('dist/', null, (err, hash) => {
     if(err) return console.error('Error uploading directory', err);
     console.log(`We can now access our directory via 'http://localhost:8500/bzz:/${hash}/root.html' and 'http://localhost:8500/bzz:/${hash}/folder/index.js'`);
 });
@@ -80,14 +80,14 @@ swarm.uploadDirectory('dist/', null, (err, hash) => {
 ```
 We will be able to access the `root.html` file via 
 ```
-swarmjs.download('bzz:/26089099a5f473dfb7b172de6558972989f8db4d3948daedbb974025be7c8534/root.html', (err, content) => {
+swarmapi.download('bzz:/26089099a5f473dfb7b172de6558972989f8db4d3948daedbb974025be7c8534/root.html', (err, content) => {
     if(err) return console.error(err);
     console.log(`contents of root.html: ${content}`);
 });
 ```
 And the `folder/index.js` file via
 ```
-swarmjs.download('bzz:/26089099a5f473dfb7b172de6558972989f8db4d3948daedbb974025be7c8534/folder/index.js', (err, content) => {
+swarmapi.download('bzz:/26089099a5f473dfb7b172de6558972989f8db4d3948daedbb974025be7c8534/folder/index.js', (err, content) => {
     if(err) return console.error(err);
     console.log(`contents of folder/index.js: ${content}`);
 });
@@ -95,7 +95,7 @@ swarmjs.download('bzz:/26089099a5f473dfb7b172de6558972989f8db4d3948daedbb974025b
 ##### Download content
 ```
 // Download content via hash
-swarmjs.downloadRaw(testHash, (err, content) => {
+swarmapi.downloadRaw(testHash, (err, content) => {
     if(err) return console.error(err);
     console.log(`contents of our test: ${content}`);
 });
