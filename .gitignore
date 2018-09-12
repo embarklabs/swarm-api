@@ -33,8 +33,8 @@ package
 .vscode
 .eslintrc.json
 
-swarmapi.min.js
-swarmapi-*.tgz
+swarm-api.min.js
+swarm-api-*.tgz
 NOTES
 npm-debug.log
 TODO

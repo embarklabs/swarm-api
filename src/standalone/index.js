@@ -1,1 +1,1 @@
-module.exports = require('../../smarmjs.min');
+module.exports = require('../../smarm-api.min');

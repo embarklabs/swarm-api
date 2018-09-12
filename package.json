@@ -1,5 +1,5 @@
 {
-  "name": "swarmapi",
+  "name": "swarm-api",
   "version": "0.0.1",
   "description": "JavaScript library for easily interacting with Swarm distributed storage.",
   "main": "dist/node/index.js",
@@ -8,7 +8,7 @@
     "./dist/node/index.js": "./dist/browser/browser.js"
   },
   "bin": {
-    "swarmapi": "./bin/swarmapi"
+    "swarmapi": "./dist/bin/swarmapi"
   },
   "browserslist": [
     "last 1 version",
@@ -17,8 +17,7 @@
   ],
   "files": [
     "dist",
-    "swarmapi.min.js",
-    "bin/swarmapi",
+    "swarm-api.min.js",
     "src"
   ],
   "scripts": {
@@ -27,7 +26,7 @@
     "babel:browser": "cross-env BABEL_ENV=browser babel --out-dir dist/browser src",
     "babel:node": "cross-env BABEL_ENV=node babel --out-dir dist src",
     "build": "npm run clean && npm run babel && npm run webpack",
-    "clean": "rimraf dist swarmapi-*.tgz package",
+    "clean": "rimraf dist swarm-api-*.tgz package",
     "http-server": "http-server",
     "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -35,7 +34,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/embark-framework/swarmapi.git"
+    "url": "git+https://github.com/embark-framework/swarm-api.git"
   },
   "author": "",
   "license": "MIT",
@@ -47,11 +46,12 @@
     "serverless"
   ],
   "bugs": {
-    "url": "https://github.com/embark-framework/swarmapi/issues"
+    "url": "https://github.com/embark-framework/swarm-api/issues"
   },
-  "homepage": "https://github.com/embark-framework/swarmapi#readme",
+  "homepage": "https://github.com/embark-framework/swarm-api#readme",
   "dependencies": {
     "@babel/runtime-corejs2": "7.0.0-rc.1",
+    "colors": "1.3.2",
     "klaw": "^3.0.0",
     "request": "^2.87.0",
     "swarmhash": "^0.1.0",
@@ -66,11 +66,11 @@
     "@babel/preset-env": "7.0.0-rc.1",
     "ajv": "6.5.2",
     "cross-env": "5.2.0",
+    "eslint": "4.19.1",
     "http-server": "0.11.1",
     "rimraf": "2.6.2",
     "webpack": "4.16.1",
-    "webpack-cli": "3.0.8",
-    "eslint": "^4.13.1"
+    "webpack-cli": "3.0.8"
   },
   "engines": {
     "node": ">=8.11.3"

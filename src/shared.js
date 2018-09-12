@@ -1,4 +1,5 @@
 const request = require('request');
+const swarmhash = require('swarmhash');
 
 class SwarmAPI {
 
@@ -81,6 +82,10 @@ class SwarmAPI {
     } catch (e) {
       cb(e);
     }
+  }
+
+  hash(content, cb){
+    cb(null, swarmhash(content).toString('hex'));
   }
 }
 export default SwarmAPI;
