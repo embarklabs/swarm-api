@@ -1,0 +1,41 @@
+{
+  "comments": false,
+  "compact": false,
+  "env": {
+    "browser": {
+      "ignore": [
+        "src/index.js",
+        "src/node/index.js",
+        "src/standalone/index.js"
+      ],
+      "plugins": [
+        ["@babel/plugin-transform-runtime", {
+          "corejs": 2,
+          "useESModules": true
+        }]
+      ],
+      "presets": [
+        ["@babel/env", {
+          "modules": false,
+          "targets": {"browsers": ["last 1 version", "not dead", "> 0.2%"]}
+        }]
+      ]
+    },
+    "node": {
+      "ignore": [
+        "src/browser.js",
+        "src/standalone/index.js"
+      ],
+      "plugins": [
+        ["@babel/plugin-transform-runtime", {
+          "corejs": 2
+        }]
+      ],
+      "presets": [
+        ["@babel/env", {
+          "targets": {"node": "8.11.3"}
+        }]
+      ]
+    }
+  }
+}

@@ -1,0 +1,144 @@
+#!/usr/bin/env node
+
+const SwarmAPI = require('../dist/node/index.js');
+require('colors');
+
+const yargs = require('yargs')
+  .usage('Usage: $0 [command]')
+  .command('ping', 'Check if the gateway is running and available')
+  .command('download <uri>', 'Download content from a given URI', {
+    uri: {
+      alias: 'u',
+      description: 'GETs a resource at the given URI, ie bzz:/<hash>',
+      demandOption: true
+    }
+  })
+  .command('downloadraw <hash>', 'Download content')
+  .command('upload <uri>', 'POST content to the given URI', {
+    uri: {
+      alias: 'u',
+      description: 'POSTS a resource to the given URI, ie bzz-raw:/'
+    }
+  })
+  .command('uploadraw <content>', 'Upload content (ie file contents)', {
+    content: {
+      alias: 'c'
+    }
+  })
+  .command('uploadfile <filename>', 'Upload file', {
+    filename: {
+      alias: 'f'
+    }
+  })
+  .command('uploaddir <dirpath>', 'Upload directory', {
+    dirpath: {
+      alias: 'd',
+      description: 'path to directory, relative to the currrent working directory, ie \'dist\''
+    }
+  })
+  .command('hash', 'Calculate the hash only without uploading. If both --filename and --content are provided, --filename takes precendence.',
+    function (yargs) {
+      return yargs.option('f', {
+        alias: 'filename',
+        describe: 'calculate the hash of the specified file'
+      })
+        .option('c', {
+          alias: 'content',
+          describe: 'calculate the hash of the specified string content. Wrap your string in quotes to get the correct hash'
+        });
+    },
+    function (argv) {
+      argv.content = (argv.filename || argv.content);
+    })
+  .option('gateway', {
+    alias: 'g',
+    describe: 'Swarm gateway URI ',
+    demandOption: true,
+    default: 'https://swarm-gateways.net',
+    defaultDescription: 'https://swarm-gateways.net'
+  })
+  //.demandOption(['gateway'], 'Please specify the gateway parameter with --gateway or -g, ie swarami -g http://localhost:8500 ping')
+  .coerce('filename', (filename) => {
+    return require('fs').readFileSync(filename);
+  })
+  .alias('h', 'hash')
+  .strict()
+  .version()
+  .showHelpOnFail(false, 'Specify --help for available options')
+  .help()
+  .demand(1, 'Must provide a command')
+  .epilogue('For more information, please see https://github.com/embark-framework/swarm-api');
+
+const argv = yargs.argv;
+const gateway = argv.gateway;
+const command = argv._[0];
+const swarmapi = new SwarmAPI({gateway});
+
+function abort(msg, err) {
+  console.error(`[${gateway}] ${(msg || 'Error occured')}`.red, err);
+  process.exit(1);
+}
+
+function success(msg) {
+  console.log(`[${gateway}] ${msg}`.green);
+}
+
+try {
+  switch (command) {
+    case 'ping':
+      swarmapi.isAvailable((err, isAvailable) => {
+        if (err) return abort('Failed to check gateway availability: ', err);
+        success(`The Swarm gateway at ${gateway} is ${isAvailable ? '' : 'un'}available`);
+      });
+      break;
+    case 'download':
+      swarmapi.download(argv.uri, (err, content) => {
+        if (err) return abort('Failed to download: ', err);
+        success(content);
+      });
+      break;
+    case 'downloadraw':
+      swarmapi.downloadRaw(argv.hash, (err, content) => {
+        if (err) return abort('Failed to download: ', err);
+        success(content);
+      });
+      break;
+    case 'upload':
+      swarmapi.upload(argv.uri, (err, hash) => {
+        if (err) return abort('Failed to upload: ', err);
+        success(`Swarm hash: ${hash}`);
+      });
+      break;
+    case 'uploadraw':
+      swarmapi.uploadRaw(argv.content, (err, hash) => {
+        if (err) {
+          return abort(`Failed to upload: ${err}`);
+        }
+        success(`Swarm hash: ${hash}`);
+      });
+      break;
+    case 'uploadfile':
+      swarmapi.uploadRaw(argv.filename, (err, hash) => {
+        if (err) return abort('Failed to upload file: ', err);
+        success(`Swarm hash: ${hash}`);
+      });
+      break;
+    case 'uploaddir':
+      swarmapi.uploadDirectory(argv.dirpath, null, (err, hash) => {
+        if (err) return abort('Failed to upload directory: ', err);
+        success(`Swarm manifest hash: ${hash}. Resources can be retreived using bzz:/<hash>/<path:optional>/<filename>, for example (assuming /index.html was uploaded):\nswarmapi download bzz:/${hash}/index.html -g ${gateway}`);
+      });
+      break;
+    case 'hash':
+      swarmapi.hash(argv.content, (err, hash) => {
+        if (err) return abort('Failed to get hash of content: ', err);
+        success(`Swarm hash: ${hash}`);
+      });
+      break;
+    default:
+      abort(`Invalid arguments. Type 'swarmapi --help' for valid options`);
+  }
+}
+catch (error) {
+  abort('Error occurred', error);
+}
